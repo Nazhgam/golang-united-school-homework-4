@@ -29,7 +29,7 @@ func StringSum(input string) (output string, err error) {
 
 	input = strings.TrimSpace(input)
 	if input == "" {
-		return "", errorEmptyInput
+		return "", fmt.Errorf(errorEmptyInput.Error())
 	}
 
 	ind := strings.LastIndex(input, "-")
@@ -45,7 +45,7 @@ func StringSum(input string) (output string, err error) {
 	}
 	arr := strings.Split(input, "+")
 	if len(arr) != 2 {
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf(errorNotTwoOperands.Error())
 	}
 	num1, errNum1 := strconv.Atoi(arr[0])
 	num2, errNum2 := strconv.Atoi(arr[1])
