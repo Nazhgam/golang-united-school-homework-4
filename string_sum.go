@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -38,6 +39,9 @@ func StringSum(input string) (output string, err error) {
 		if errNum1 != nil || errNum2 != nil {
 			return "", errorNotTwoOperands
 		}
+		if num2 == 0 {
+			return "", fmt.Errorf("no division by zero")
+		}
 		output = strconv.Itoa(num1 + num2)
 		return output, nil
 	}
@@ -49,6 +53,9 @@ func StringSum(input string) (output string, err error) {
 	num2, errNum2 := strconv.Atoi(arr[1])
 	if errNum1 != nil || errNum2 != nil {
 		return "", errorNotTwoOperands
+	}
+	if num2 == 0 {
+		return "", fmt.Errorf("no division by zero")
 	}
 	output = strconv.Itoa(num1 + num2)
 	return output, nil
