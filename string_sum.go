@@ -29,7 +29,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.ReplaceAll(input, " ", "")
 
 	if input == "" {
-		return "", fmt.Errorf("%s", errorEmptyInput.Error())
+		return "", fmt.Errorf("%v", errorEmptyInput)
 	}
 
 	arr := strings.Split(input, "+")
@@ -37,9 +37,10 @@ func StringSum(input string) (output string, err error) {
 	if len(arr) == 1 {
 		ind := strings.LastIndex(input, "-")
 
-		if len(input)-1 == ind {
-			return "", fmt.Errorf("%s", errorNotTwoOperands)
+		if len(input)-1 == ind || ind == -1 {
+			return "", fmt.Errorf("%v", errorNotTwoOperands)
 		}
+
 		return calculator(input[:ind], input[ind:])
 	}
 
@@ -53,12 +54,12 @@ func StringSum(input string) (output string, err error) {
 func calculator(str1, str2 string) (string, error) {
 	num1, errNum1 := strconv.Atoi(str1)
 	if errNum1 != nil {
-		return "", fmt.Errorf("%s", errNum1.Error())
+		return "", fmt.Errorf("%v", errNum1)
 	}
 
 	num2, errNum2 := strconv.Atoi(str2)
 	if errNum2 != nil {
-		return "", fmt.Errorf("%s", errNum2.Error())
+		return "", fmt.Errorf("%v", errNum2)
 	}
 
 	return strconv.Itoa(num1 + num2), nil
