@@ -29,7 +29,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.ReplaceAll(input, " ", "")
 
 	if input == "" {
-		return "", fmt.Errorf("%v", errorEmptyInput)
+		return "", fmt.Errorf("%s", errorEmptyInput.Error())
 	}
 
 	arr := strings.Split(input, "+")
@@ -38,14 +38,14 @@ func StringSum(input string) (output string, err error) {
 		ind := strings.LastIndex(input, "-")
 
 		if len(input)-1 == ind || ind == -1 {
-			return "", fmt.Errorf("%v", errorNotTwoOperands)
+			return "", fmt.Errorf("%s", errorNotTwoOperands.Error())
 		}
 
 		return calculator(input[:ind], input[ind:])
 	}
 
 	if len(arr) != 2 {
-		return "", fmt.Errorf("%v", errorNotTwoOperands)
+		return "", fmt.Errorf("%s", errorNotTwoOperands.Error())
 	}
 
 	return calculator(arr[0], arr[1])
@@ -54,12 +54,12 @@ func StringSum(input string) (output string, err error) {
 func calculator(str1, str2 string) (string, error) {
 	num1, errNum1 := strconv.Atoi(str1)
 	if errNum1 != nil {
-		return "", fmt.Errorf("%v", errNum1)
+		return "", fmt.Errorf("strconv.Atoi: parsing \"%v\": invalid syntax", num1)
 	}
 
 	num2, errNum2 := strconv.Atoi(str2)
 	if errNum2 != nil {
-		return "", fmt.Errorf("%v", errNum2)
+		return "", fmt.Errorf("strconv.Atoi: parsing \"%v\": invalid syntax", num2)
 	}
 
 	return strconv.Itoa(num1 + num2), nil
