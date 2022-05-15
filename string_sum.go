@@ -26,34 +26,45 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-
-	input = strings.TrimSpace(input)
+	input = strings.ReplaceAll(input, " ", "")
+	input = strings.ReplaceAll(input, "\n", "")
+	input = strings.ReplaceAll(input, "\t", "")
+	input = strings.ReplaceAll(input, "\v", "")
+	input = strings.ReplaceAll(input, "\r", "")
+	input = strings.ReplaceAll(input, "\f", "")
 	if input == "" {
-		return "", fmt.Errorf(errorEmptyInput.Error())
+		return "", errorEmptyInput
+	}
+	if len(input) < 3 {
+		return "", errorNotTwoOperands
 	}
 
-	ind := strings.LastIndex(input, "-")
-	if ind > 0 {
-		num1, errNum1 := strconv.Atoi(input[:ind])
-		num2, errNum2 := strconv.Atoi(input[ind:])
-		if errNum1 != nil || errNum2 != nil {
-			return "", fmt.Errorf("alphabetical input don't allowed")
-		}
-
-		output = strconv.Itoa(num1 + num2)
-		return output, nil
-	}
 	arr := strings.Split(input, "+")
+
+	if len(arr) == 1 {
+		arr = strings.Split(input, "-")
+		if len(arr) != 2 {
+			return "", errorNotTwoOperands
+		}
+		return calculator(arr[0], arr[1])
+	}
+
 	if len(arr) != 2 {
-		return "", fmt.Errorf(errorNotTwoOperands.Error())
-	}
-	num1, errNum1 := strconv.Atoi(arr[0])
-	num2, errNum2 := strconv.Atoi(arr[1])
-	if errNum1 != nil || errNum2 != nil {
-		return "", fmt.Errorf("alphabetical input don't allowed")
+		return "", errorNotTwoOperands
 	}
 
-	output = strconv.Itoa(num1 + num2)
-	return output, nil
+	return calculator(arr[0], arr[1])
+}
+func calculator(str1, str2 string) (string, error) {
+	num1, errNum1 := strconv.Atoi(str1)
+	if errNum1 != nil {
+		return "", fmt.Errorf("invalid input. request must have numeric type")
+	}
 
+	num2, errNum2 := strconv.Atoi(str2)
+	if errNum2 != nil {
+		return "", fmt.Errorf("invalid input. request must have numeric type")
+	}
+
+	return strconv.Itoa(num1 + num2), nil
 }
