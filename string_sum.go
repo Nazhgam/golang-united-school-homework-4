@@ -42,7 +42,7 @@ func StringSum(input string) (output string, err error) {
 	if len(arr) == 1 {
 		ind := strings.LastIndex(input, "-")
 
-		if len(input)-1 == ind || ind == -1 {
+		if len(input)-1 == ind || ind <= 0 {
 			return "", fmt.Errorf("%w", errorNotTwoOperands)
 		}
 
@@ -56,7 +56,31 @@ func StringSum(input string) (output string, err error) {
 	return calculator(arr[0], arr[1])
 }
 
+func checkStringsForOneOperand(str1, str2 string) bool {
+	str1Minus := strings.LastIndex(str1, "-")
+	if str1Minus > 0 {
+		return false
+	}
+
+	str2Minus := strings.LastIndex(str2, "-")
+	if str2Minus > 0 {
+		return false
+	}
+
+	str1Plus := strings.LastIndex(str1, "+")
+	if str1Plus > 0 {
+		return false
+	}
+
+	str2Plus := strings.LastIndex(str2, "+")
+	return str2Plus <= 0
+}
+
 func calculator(str1, str2 string) (string, error) {
+	if !checkStringsForOneOperand(str1, str2) {
+		return "", fmt.Errorf("%w", errorNotTwoOperands)
+	}
+
 	num1, errNum1 := strconv.Atoi(str1)
 	if errNum1 != nil {
 		return "", fmt.Errorf("%w", errNum1)
