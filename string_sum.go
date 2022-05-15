@@ -37,11 +37,9 @@ func StringSum(input string) (output string, err error) {
 		num1, errNum1 := strconv.Atoi(input[:ind])
 		num2, errNum2 := strconv.Atoi(input[ind:])
 		if errNum1 != nil || errNum2 != nil {
-			return "", errorNotTwoOperands
+			return "", fmt.Errorf("alphabetical input don't allowed")
 		}
-		if num2 == 0 {
-			return "", fmt.Errorf("no division by zero")
-		}
+
 		output = strconv.Itoa(num1 + num2)
 		return output, nil
 	}
@@ -52,11 +50,9 @@ func StringSum(input string) (output string, err error) {
 	num1, errNum1 := strconv.Atoi(arr[0])
 	num2, errNum2 := strconv.Atoi(arr[1])
 	if errNum1 != nil || errNum2 != nil {
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf("alphabetical input don't allowed")
 	}
-	if num2 == 0 {
-		return "", fmt.Errorf("no division by zero")
-	}
+
 	output = strconv.Itoa(num1 + num2)
 	return output, nil
 
