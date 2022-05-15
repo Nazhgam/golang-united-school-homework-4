@@ -39,12 +39,12 @@ func StringSum(input string) (output string, err error) {
 	arr := strings.Split(input, "+")
 
 	if len(arr) == 1 {
-		arr = strings.Split(input, "-")
+		ind := strings.LastIndex(input, "-")
 
-		if len(arr) != 2 {
+		if len(input)-1 == ind {
 			return "", fmt.Errorf("%v", errorNotTwoOperands)
 		}
-		return calculator(arr[0], arr[1])
+		return calculator(input[:ind], input[ind:])
 	}
 
 	if len(arr) != 2 {
