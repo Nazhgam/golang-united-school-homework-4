@@ -33,37 +33,36 @@ func StringSum(input string) (output string, err error) {
 	input = strings.ReplaceAll(input, "\r", "")
 	input = strings.ReplaceAll(input, "\f", "")
 	if input == "" {
-		return "", errorEmptyInput
-	}
-	if len(input) < 3 {
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf("%v", errorEmptyInput.Error())
 	}
 
 	arr := strings.Split(input, "+")
 
 	if len(arr) == 1 {
 		arr = strings.Split(input, "-")
+
 		if len(arr) != 2 {
-			return "", errorNotTwoOperands
+			return "", fmt.Errorf("%v", errorNotTwoOperands)
 		}
 		return calculator(arr[0], arr[1])
 	}
 
 	if len(arr) != 2 {
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf("%v", errorNotTwoOperands)
 	}
 
 	return calculator(arr[0], arr[1])
 }
+
 func calculator(str1, str2 string) (string, error) {
 	num1, errNum1 := strconv.Atoi(str1)
 	if errNum1 != nil {
-		return "", fmt.Errorf("invalid input. request must have numeric type")
+		return "", fmt.Errorf(errNum1.Error())
 	}
 
 	num2, errNum2 := strconv.Atoi(str2)
 	if errNum2 != nil {
-		return "", fmt.Errorf("invalid input. request must have numeric type")
+		return "", fmt.Errorf(errNum2.Error())
 	}
 
 	return strconv.Itoa(num1 + num2), nil
